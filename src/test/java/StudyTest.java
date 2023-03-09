@@ -5,8 +5,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StudyTest {
 
+    @DisplayName("커스텀 SlowTest")
+    void test_slow_custom_anno () {
+        System.out.println("성공");
+    }
+
+    @Test
+    @DisplayName("스터디 객체 예외 테스트")
+    @Tag("fast")
+    void new_study_exception () {
+        RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> new Study(-10));
+        String message = runtimeException.getMessage();
+        assertEquals("0보다 커야합니다", message);
+    }
+
     @Test
     @DisplayName("스터디 객체 생성하기")
+    @Tag("slow")
     void create_new_study () {
         Study study = new Study(-10);
 
@@ -16,14 +31,15 @@ class StudyTest {
                 () -> assertTrue(study.getLimit() >= 0)
         );
         assertNotNull(study);
-//      assertEquals(기대값, 실제 나오는 값, 메세지);
+//      assertEquals(기대값, 실제 나오는 값, 메세지);~~`
         assertTrue(study.getLimit() >= 0);
     }
 
     @Test
     @DisplayName("assertAll를 사용하여 assert 한번에 수행 후 결과 얻기")
+    @Tag("slow")
     void use_assertAll () {
-        Study study = new Study(-10);
+        Study study = new Study(1);
         
         assertAll(
                 () -> assertNotNull(study, () -> "스터디 객체를 생성할 때 NULL이면 안된다"),
